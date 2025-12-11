@@ -1,8 +1,8 @@
-streamlit==1.35.0
-openai>=1.35.10
-faiss-cpu==1.7.4
-ebooklib==0.18
-beautifulsoup4==4.12.2
-lxml==4.9.3
-numpy==1.26.4
-python-dotenv==1.0.1
+streamlit
+openai
+faiss-cpu
+ebooklib
+beautifulsoup4
+lxml
+numpy
+python-dotenv
