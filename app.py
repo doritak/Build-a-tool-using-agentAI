@@ -58,6 +58,16 @@ def extract_text_from_epub(path: str) -> str:
 
     return "\n\n".join(texts)
 
+def get_book_title(path: str) -> str:
+    """
+    Read the EPUB metadata and return the book title, if available.
+    """
+    book = epub.read_epub(path)
+    titles = book.get_metadata("DC", "title")
+    if titles:
+        # titles is a list of (value, attributes) tuples
+        return titles[0][0]
+    return "Unknown title"
 
 def chunk_text(text: str, chunk_size: int, overlap: int):
     """
@@ -330,13 +340,14 @@ if st.session_state.index is None:
     with st.spinner("Loading the book and building the FAISS index..."):
         try:
             st.session_state.index = build_index()
+            st.session_state.book_title = get_book_title(BOOK_PATH)
             st.success("✅ Book loaded and index built successfully.")
         except Exception as e:
             st.error(f"Error while building the index: {e}")
             st.stop()
 
 # ----- Chat-like CLI -----
-st.subheader("💬 Ask a question about the book")
+st.subheader(f"💬 Ask a question about the book: {st.session_state.book_title}")
 
 user_query = st.text_input(
     "Type your question and press Enter:",
